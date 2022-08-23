@@ -6,23 +6,24 @@ class URLTools {
    * @return {object} Fragments.
    */
   static extractFragmentsFromURL(validate, hashWindow) {
-    if (!hashWindow.location.hash) {
+    if (!hashWindow) {
       return {};
     }
-
     // Convert fragment string to object with properties
     const fragments = {};
-    hashWindow.location.hash.replace('#', '').split('&')
-      .forEach(fragment => {
-        if (fragment.indexOf('=') === -1) {
+    hashWindow.location.hash
+      .replace("#", "")
+      .split("&")
+      .forEach((fragment) => {
+        if (fragment.indexOf("=") === -1) {
           return; // Skip if incomplete pair
         }
-        const argPair = fragment.split('=');
+        const argPair = fragment.split("=");
         fragments[argPair[0]] = argPair[1];
       });
 
     // Optionally validate and ignore fragments
-    if (typeof validate === 'function' && !validate(fragments)) {
+    if (typeof validate === "function" && !validate(fragments)) {
       return {};
     }
 
@@ -40,7 +41,7 @@ class URLTools {
     for (const fragment in fragments) {
       parts.push(`${fragment}=${fragments[fragment]}`);
     }
-    return `#${parts.join('&')}`;
+    return `#${parts.join("&")}`;
   }
 
   /**
@@ -57,7 +58,10 @@ class URLTools {
         if (limitTo.length > 0 && limitTo.indexOf(key) === -1) {
           continue;
         }
-        if (!fragment2[key] || fragment1[key].toString() !== fragment2[key].toString()) {
+        if (
+          !fragment2[key] ||
+          fragment1[key].toString() !== fragment2[key].toString()
+        ) {
           return false;
         }
       }
