@@ -869,6 +869,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
     this.attach = ($wrapper) => {
       this.mainWrapper = $wrapper;
       // Needed to enable scrolling in fullscreen
+      $wrapper.addClass("h5p-interactive-book-scroll-top-anchor");
       $wrapper.addClass("h5p-interactive-book h5p-scrollable-fullscreen");
 
       if (this.isEdge18orEarlier()) {
@@ -1063,7 +1064,7 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       leftOutOfTotalCompleted = "@left of @max interactinos completed",
       noInteractions = "No interactions",
       score = "Score",
-      summaryAndSubmit = "Summary & submit",
+      summaryAndSubmit = "Check your Progress",
       noChapterInteractionBoldText = "You have not interacted with any pages.",
       noChapterInteractionText = "You have to interact with at least one page before you can see the summary.",
       yourAnswersAreSubmittedForReview = "Your answers are submitted for review!",

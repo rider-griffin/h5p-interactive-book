@@ -1,4 +1,5 @@
 import "jquery-circle-progress";
+import ScrollTool from "./scrolltool";
 
 class Summary extends H5P.EventDispatcher {
   /**
@@ -159,6 +160,8 @@ class Summary extends H5P.EventDispatcher {
       const score = this.parent.getScore();
       const maxScore = this.parent.getMaxScore();
       this.parent.triggerXAPIScored(score, maxScore, "completed");
+
+      ScrollTool.scrollToTop();
     };
     //button.disabled = true;
 
@@ -401,10 +404,15 @@ class Summary extends H5P.EventDispatcher {
         );
         wrapper.classList.add("submitted");
       };
-      wrapper.appendChild(submitButton);
+
+      /*
+      Commented out the wrapper appendage of the submit button; XAPI is fired on "Check Progress" button or navigation button clicks
+      */
+      
+      //wrapper.appendChild(submitButton);
     }
     wrapper.appendChild(this.createRestartButton());
-    wrapper.appendChild(this.createSubmittedConfirmation());
+    //wrapper.appendChild(this.createSubmittedConfirmation());
 
     this.wrapper.appendChild(wrapper);
   }

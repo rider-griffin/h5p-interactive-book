@@ -1,3 +1,5 @@
+import ScrollTool from "./scrolltool";
+
 /**
  * Constructor function.
  */
@@ -168,6 +170,7 @@ class StatusBar extends H5P.EventDispatcher {
         direction: "prev",
         toTop: true,
       });
+      ScrollTool.scrollToTop();
     };
     acm.buttonWrapperPrevious.appendChild(acm.buttonPrevious);
 
@@ -188,6 +191,7 @@ class StatusBar extends H5P.EventDispatcher {
         direction: "next",
         toTop: true,
       });
+      ScrollTool.scrollToTop();
     };
     acm.buttonWrapperNext.appendChild(acm.buttonNext);
 

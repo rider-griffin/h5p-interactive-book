@@ -351,7 +351,7 @@
     "type": "text",
     "importance": "low",
     "label": "Label for \"Summary &amp; submit\" button",
-    "default": "Summary &amp; submit",
+    "default": "Check your Progress",
     "common": true,
     "optional": true
   },
