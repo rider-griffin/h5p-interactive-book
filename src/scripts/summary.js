@@ -390,29 +390,30 @@ class Summary extends H5P.EventDispatcher {
     wrapper.classList.add("h5p-interactive-book-summary-buttons");
 
     if (H5PIntegration.reportingIsEnabled) {
-      const submitButton = this.addButton(
-        "icon-paper-pencil",
-        this.l10n.submitReport
-      );
-      submitButton.classList.add("h5p-interactive-book-summary-submit");
-      submitButton.onclick = () => {
-        this.trigger("submitted");
-        this.parent.triggerXAPIScored(
-          this.parent.getScore(),
-          this.parent.getMaxScore(),
-          "completed"
+      if(this.behaviour.displaySubmitButton) {
+        const submitButton = this.addButton(
+          "icon-paper-pencil",
+          this.l10n.submitReport
         );
-        wrapper.classList.add("submitted");
-      };
-
-      /*
-      Commented out the wrapper appendage of the submit button; XAPI is fired on "Check Progress" button or navigation button clicks
-      */
-      
-      //wrapper.appendChild(submitButton);
+        submitButton.classList.add("h5p-interactive-book-summary-submit");
+        submitButton.onclick = () => {
+          this.trigger("submitted");
+          this.parent.triggerXAPIScored(
+            this.parent.getScore(),
+            this.parent.getMaxScore(),
+            "completed"
+          );
+          wrapper.classList.add("submitted");
+        };
+  
+        wrapper.appendChild(submitButton);
+      }
     }
     wrapper.appendChild(this.createRestartButton());
-    //wrapper.appendChild(this.createSubmittedConfirmation());
+
+    if(this.behaviour.displaySubmitButton) {
+      wrapper.appendChild(this.createSubmittedConfirmation());
+    }
 
     this.wrapper.appendChild(wrapper);
   }

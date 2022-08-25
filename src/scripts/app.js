@@ -1089,6 +1089,8 @@ export default class InteractiveBook extends H5P.EventDispatcher {
       config.behaviour.displaySummary === undefined ||
       config.behaviour.displaySummary;
 
+    config.behaviour.displaySubmitButton = config.behaviour.displaySubmitButton === undefined ? false : config.behaviour.displaySubmitButton;
+
     config.l10n = {
       read,
       displayTOC,

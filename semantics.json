@@ -132,6 +132,13 @@
         "label": "Display summary",
         "description": "When enabled the user can see a summary and submit the progress/answers",
         "default": true
+      },
+      {
+        "name": "displaySubmitButton",
+        "type": "boolean",
+        "label": "Display Submit button on summary page",
+        "description": "When enabled, will display a submit button on the summary page. Toggling this settign will not effect XAPI firing.",
+        "default": false
       }
     ]
   },
