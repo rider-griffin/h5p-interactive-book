@@ -1,3 +1,5 @@
+import ScrollTool from './scrolltool';
+
 /**
  * A component which helps in navigation
  * Constructor function.
@@ -450,6 +452,7 @@ class SideBar extends H5P.EventDispatcher {
         this.toggleChapter(event.currentTarget.parentElement);
         this.parent.trigger('resize');
       }
+      ScrollTool.scrollToTop();
     };
     chapterNodeTitle.appendChild(chapterCollapseIcon);
     chapterNodeTitle.appendChild(chapterTitleText);

@@ -1,4 +1,5 @@
 import "jquery-circle-progress";
+import ScrollTool from "./scrolltool";
 
 class Summary extends H5P.EventDispatcher {
   /**
@@ -159,6 +160,8 @@ class Summary extends H5P.EventDispatcher {
       const score = this.parent.getScore();
       const maxScore = this.parent.getMaxScore();
       this.parent.triggerXAPIScored(score, maxScore, "completed");
+
+      ScrollTool.scrollToTop();
     };
     //button.disabled = true;
 
@@ -387,24 +390,30 @@ class Summary extends H5P.EventDispatcher {
     wrapper.classList.add("h5p-interactive-book-summary-buttons");
 
     if (H5PIntegration.reportingIsEnabled) {
-      const submitButton = this.addButton(
-        "icon-paper-pencil",
-        this.l10n.submitReport
-      );
-      submitButton.classList.add("h5p-interactive-book-summary-submit");
-      submitButton.onclick = () => {
-        this.trigger("submitted");
-        this.parent.triggerXAPIScored(
-          this.parent.getScore(),
-          this.parent.getMaxScore(),
-          "completed"
+      if(this.behaviour.displaySubmitButton) {
+        const submitButton = this.addButton(
+          "icon-paper-pencil",
+          this.l10n.submitReport
         );
-        wrapper.classList.add("submitted");
-      };
-      wrapper.appendChild(submitButton);
+        submitButton.classList.add("h5p-interactive-book-summary-submit");
+        submitButton.onclick = () => {
+          this.trigger("submitted");
+          this.parent.triggerXAPIScored(
+            this.parent.getScore(),
+            this.parent.getMaxScore(),
+            "completed"
+          );
+          wrapper.classList.add("submitted");
+        };
+  
+        wrapper.appendChild(submitButton);
+      }
     }
     wrapper.appendChild(this.createRestartButton());
-    wrapper.appendChild(this.createSubmittedConfirmation());
+
+    if(this.behaviour.displaySubmitButton) {
+      wrapper.appendChild(this.createSubmittedConfirmation());
+    }
 
     this.wrapper.appendChild(wrapper);
   }
