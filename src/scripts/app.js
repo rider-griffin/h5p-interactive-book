@@ -763,8 +763,18 @@ export default class InteractiveBook extends H5P.EventDispatcher {
 
     H5P.on(this, "changeHash", (event) => {
       if (String(event.data.h5pbookid) === String(this.contentId)) {
-        this.hashWindow.location.hash = event.data.newHash;
+        /**
+         * We've found changing the window's real location object to be problematic for
+         * large interactive books, and mock one instead
+         */
+        this.hashWindow = {
+          location: {
+            hash: event.data.newHash,
+          },
+        };
       }
+
+      H5P.trigger(this, "respondChangeHash", event);
     });
 
     H5P.externalDispatcher.on("xAPI", function (event) {
@@ -840,28 +850,6 @@ export default class InteractiveBook extends H5P.EventDispatcher {
         }
       });
     };
-
-    /**
-     * Add listener for hash changes to specified window
-     */
-    this.addHashListener = (hashWindow) => {
-      hashWindow.addEventListener("hashchange", (event) => {
-        H5P.trigger(this, "respondChangeHash", event);
-      });
-      this.hashWindow = hashWindow;
-    };
-
-    try {
-      this.addHashListener(top);
-    } catch (e) {
-      if (e instanceof DOMException) {
-        // Use iframe window to store book location hash
-        console.log(e);
-        //this.addHashListener(window);
-      } else {
-        throw e;
-      }
-    }
 
     /**
      * Display book cover

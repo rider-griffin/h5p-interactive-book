@@ -220,30 +220,36 @@ class PageContent extends H5P.EventDispatcher {
     const chapters = [];
     this.chapters = chapters;
 
+
     // Go through all columns and initialise them
     for (let i = 0; i < config.chapters.length; i++) {
       const columnNode = document.createElement('div');
       this.overrideParameters(i, config.chapters[i]);
+
+      const chapterExists = previousState && previousState.chapters[i];
 
       const instanceContentData = {
         ...contentData,
         metadata: {
           ...contentData.metadata,
         },
-        previousState: (previousState) ? previousState.chapters[i].state : {}
+        previousState: chapterExists ? previousState.chapters[i].state : {}
       };
+
+
       const newInstance = H5P.newRunnable(config.chapters[i], contentId, undefined, undefined, instanceContentData);
       this.parent.bubbleUp(newInstance, 'resize', this.parent);
 
+      
       const chapter = {
         isInitialized: false,
         instance: newInstance,
-        title: config.chapters[i].metadata.title,
-        completed: (previousState) ? previousState.chapters[i].completed : false,
-        tasksLeft: (previousState) ? previousState.chapters[i].tasksLeft : 0,
+        title: chapterExists ? config.chapters[i].metadata.title: "",
+        completed: chapterExists ? previousState.chapters[i].completed : false,
+        tasksLeft: chapterExists ? previousState.chapters[i].tasksLeft : 0,
         isSummary: false,
         sections: newInstance.getInstances().map((instance, contentIndex) => ({
-          content: config.chapters[i].params.content[contentIndex].content,
+          content: chapterExists ? config.chapters[i].params.content[contentIndex].content: {},
           instance: instance,
           isTask: false
         }))
@@ -258,7 +264,7 @@ class PageContent extends H5P.EventDispatcher {
           section.isTask = true;
 
           if (this.behaviour.progressIndicators) {
-            section.taskDone = (previousState) ? previousState.chapters[i].sections[index].taskDone : false;
+            section.taskDone = chapterExists ? previousState.chapters[i].sections[index].taskDone : false;
             if (!previousState) {
               chapter.tasksLeft += 1;
             }
@@ -266,7 +272,7 @@ class PageContent extends H5P.EventDispatcher {
         }
       });
 
-      chapter.maxTasks = (previousState) ? previousState.chapters[i].maxTasks : chapter.tasksLeft;
+      chapter.maxTasks = chapterExists ? previousState.chapters[i].maxTasks : chapter.tasksLeft;
 
       // Register both the HTML-element and the H5P-element
       chapters.push(chapter);
