@@ -9,6 +9,10 @@ class URLTools {
     if (!hashWindow) {
       return {};
     }
+
+    if (hashWindow.location.hash === "") {
+      return {};
+    }
     // Convert fragment string to object with properties
     const fragments = {};
     hashWindow.location.hash
