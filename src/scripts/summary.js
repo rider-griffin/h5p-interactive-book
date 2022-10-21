@@ -409,7 +409,10 @@ class Summary extends H5P.EventDispatcher {
         wrapper.appendChild(submitButton);
       }
     }
-    wrapper.appendChild(this.createRestartButton());
+
+    if(this.behaviour.displayRestartButton) {
+      wrapper.appendChild(this.createRestartButton());
+    }
 
     if(this.behaviour.displaySubmitButton) {
       wrapper.appendChild(this.createSubmittedConfirmation());
