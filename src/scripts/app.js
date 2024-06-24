@@ -304,10 +304,13 @@ export default class InteractiveBook extends H5P.EventDispatcher {
      *
      * @return {number} Number of active chapter.
      */
-    this.getActiveChapter = (getActualChapter = false) =>
-      !getActualChapter
-        ? this.activeChapter
-        : this.chapters[this.activeChapter];
+    this.getActiveChapter = (getActualChapter = false) => {
+      const santizedActiveChapterId =
+        this.activeChapter < 0 ? 0 : this.activeChapter;
+      return !getActualChapter
+        ? santizedActiveChapterId
+        : this.chapters[santizedActiveChapterId];
+    };
 
     /**
      * Set number of active chapter.

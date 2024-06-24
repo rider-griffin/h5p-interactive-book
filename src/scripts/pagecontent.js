@@ -215,6 +215,13 @@ class PageContent extends H5P.EventDispatcher {
     let urlFragments = URLTools.extractFragmentsFromURL(this.parent.validateFragments, this.parent.hashWindow);
     if (Object.keys(urlFragments).length === 0 && contentData && previousState && previousState.urlFragments) {
       urlFragments = previousState.urlFragments;
+
+      //Set the parent hashwindow from previous state, otherwise book will default to loading first chapter
+      this.parent.hashWindow = {
+        location: {
+          hash: URLTools.createFragmentsString(previousState.urlFragments) || ""
+        },
+      };
     }
 
     const chapters = [];
